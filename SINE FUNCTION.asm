@@ -181,9 +181,9 @@ DATA SEGMENT
         COPEVALUES DB 03H,01D, 02D, 01D           
         CONT DB 0 
         MIDDLEHIGH DB 12D 
-        MNAME DB "Jesus Jose Navarrete Baca$"
-        GADU DB "     A.L.G.D.G.A.D.U$"
-        TITLE DB  "Graphical Approximation of Trigonometric Sine"
+        MNAME DB  "      Jesus Jose Navarrete Baca$"
+        GADU DB   "            A.L.G.D.G.A.D.U$"   
+        DTITLE DB "Graphical Approximation of Sine,ASM 86$"
         
 DATA ENDS  
 
@@ -216,11 +216,20 @@ CODE SEGMENT
         
         CENTERPRINT ENDP
         
-        PROC FINAL 
+        PROC FINAL
+                MOV AH, 02H
+                MOV DH, 21D
+                MOV DL, 41D
+                MOV BH, 00H
+                INT 10H
+                
+                MOV AH, 09H
+                LEA DX, DTITLE
+                INT 21H 
                       
                 MOV AH, 02H
                 MOV DH, 22D
-                MOV DL, 53D
+                MOV DL, 41D
                 MOV BH, 00H
                 INT 10H
                 
@@ -230,7 +239,7 @@ CODE SEGMENT
                 
                 MOV AH, 02H
                 MOV DH, 23D
-                MOV DL, 53D
+                MOV DL, 41D
                 MOV BH, 00H
                 INT 10H
                 
@@ -252,18 +261,20 @@ CODE SEGMENT
         MOV DX, 184FH  
         MOV BH, 00011110B    
         INT 10H  
+        
+        CALL FINAL
        
         MOV CX, 0025D
         MOV BL, 0FH   
         
-        MOV CONT, 00H  
+        MOV CONT, 24D  
       
         C1:
            
            
            $PRINTLINEV
            
-           INC CONT 
+           DEC CONT 
            
            POP CX  
                   
@@ -276,14 +287,13 @@ CODE SEGMENT
         C2:
                   
             
-            $PRINTLINEH
-            
+            $PRINTLINEH            
             INC CONT
             POP CX
                   
         LOOP C2
             
-            CALL FINAL
+            
        
             $STARTPRINT:
 
